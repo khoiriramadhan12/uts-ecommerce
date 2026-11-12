@@ -1,6 +1,6 @@
-# Toko UTS — Sistem E-Commerce Sederhana
+# Tokoku — Sistem E-Commerce Sederhana
 
-Tugas UTS mata kuliah **DT199 Backend Development** (Semester Ganjil 2026/2027).
+Tugas UTS mata kuliah **Backend Development** (Semester Ganjil 2026/2027).
 Aplikasi e-commerce modular monolith dibangun dengan **Laravel 13**, **Laravel Sanctum**,
 **Blade**, dan **PHP 8.4+**.
 
@@ -16,7 +16,8 @@ Sistem E-Commerce Sederhana dengan tiga modul:
 
 Dokumen rancangan lengkap (bounded context, ERD, kontrak, pembagian tugas) ada di
 [`docs/01-rancangan.md`](docs/01-rancangan.md). Rencana implementasi ada di
-[`docs/02-rencana-implementasi.md`](docs/02-rencana-implementasi.md).
+[`docs/02-rencana-implementasi.md`](docs/02-rencana-implementasi.md). Draft laporan
+UTS (BAB I–V) ada di [`docs/03-laporan-uts.md`](docs/03-laporan-uts.md).
 
 ## Menjalankan
 
@@ -108,9 +109,6 @@ DB_DATABASE=uts_ecommerce
 DB_USERNAME=root
 DB_PASSWORD=
 ```
-
-Laravel 13 membutuhkan MySQL 8+ (atau MariaDB 10.4+). MySQL 5.7 bawaan MAMP
-tidak disarankan.
 
 ## Lisensi
 
