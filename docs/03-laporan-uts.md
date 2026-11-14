@@ -495,12 +495,11 @@ vendor/bin/pint  →  passed
 
 | Input | Pesan |
 |---|---|
-| Harga `-1` | "Harga tidak boleh negatif." |
-| SKU duplikat | "SKU sudah dipakai produk lain." |
+| SKU duplikat (`ELK-001`) | "SKU sudah dipakai produk lain." |
 | Kode pos `abc` | "Kode pos harus terdiri dari 5 digit angka." |
-| Qty `0` | "Jumlah minimal 1." |
-| Checkout tanpa alamat | "Pilih alamat pengiriman terlebih dahulu." |
+| Checkout tanpa memilih alamat | "Pilih alamat pengiriman terlebih dahulu." |
 | Email sudah terdaftar | "Email sudah terdaftar." |
+| Password kurang dari 8 karakter | "Password minimal 8 karakter." |
 
 **`[SCREENSHOT: form produk dengan pesan error]`**
 **`[SCREENSHOT: form checkout tanpa alamat]`**
