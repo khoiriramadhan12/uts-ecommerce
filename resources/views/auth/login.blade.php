@@ -3,7 +3,7 @@
 @section('title', 'Login')
 
 @section('content')
-    <div class="row justify-content-center">
+    <div class="row justify-content-center align-items-center" style="min-height: calc(100vh - 120px);">
         <div class="col-md-5">
             <div class="card shadow-sm">
                 <div class="card-body p-4">
@@ -29,7 +29,8 @@
                     <p class="mt-3 mb-0 small">Belum punya akun? <a href="{{ route('register') }}">Daftar</a></p>
                 </div>
             </div>
-            <p class="text-muted small mt-3">Demo: admin@example.com atau customer@example.com, password <code>password</code>.</p>
+            <p class="text-muted small mt-3">Admin: admin@example.com pw: <code>password</code></p>
+            <p class="text-muted small mt-3">User: customer@example.com pw: <code>password</code></p>
         </div>
     </div>
 @endsection
