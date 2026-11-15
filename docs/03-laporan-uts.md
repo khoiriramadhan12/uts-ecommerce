@@ -62,6 +62,9 @@ mobile, dan REST API terpisah.
 
 ## 2.1 Bounded Context Diagram
 
+Diagram berikut menunjukkan pembagian sistem menjadi tiga modul domain dan satu
+shared kernel.
+
 ```mermaid
 flowchart LR
     subgraph SK["Shared Kernel"]
@@ -100,6 +103,10 @@ Sistem terdiri atas tiga modul domain dan satu shared kernel. Shared kernel hany
 menyimpan identitas login dan role.
 
 ## 2.2 Entity Relationship Diagram
+
+ERD berikut menggambarkan seluruh tabel, foreign key, dan kardinalitas relasi yang
+dipakai aplikasi. Tabel dipisahkan per modul agar perubahan pada satu modul tidak
+merusak modul lain.
 
 ```mermaid
 erDiagram
@@ -222,6 +229,8 @@ erDiagram
 
 Relasi wajib yang terpenuhi:
 
+**Tabel 2.1** Pemenuhan ketentuan relasi pada ERD.
+
 | Ketentuan | Implementasi |
 |---|---|
 | One-to-Many | `categories` → `products`, `customers` → `addresses`, `orders` → `order_items`, `carts` → `cart_items` |
@@ -232,6 +241,11 @@ Relasi wajib yang terpenuhi:
 saat checkout agar riwayat pesanan tidak berubah ketika data produk atau alamat diedit.
 
 ## 2.3 Penjelasan Modul dan Alur Komunikasi
+
+Setiap modul memiliki satu tanggung jawab utama dan hanya berkomunikasi melalui
+contract atau domain event.
+
+**Tabel 2.2** Tanggung jawab setiap modul.
 
 | Modul | Tanggung jawab |
 |---|---|
@@ -246,6 +260,8 @@ saat checkout agar riwayat pesanan tidak berubah ketika data produk atau alamat 
   `assertAddressBelongsTo`, `addressesFor`.
 
 **Komunikasi melalui Domain Event** (setelah commit):
+
+**Tabel 2.3** Domain event dan listener yang menanganinya.
 
 | Event | Listener | Fungsi |
 |---|---|---|
@@ -269,6 +285,10 @@ saat checkout agar riwayat pesanan tidak berubah ketika data produk atau alamat 
 # BAB III — IMPLEMENTASI
 
 ## 3.1 Struktur Direktori
+
+Seluruh kode domain ditempatkan di `app/Modules` dan dipisahkan per bounded context.
+Setiap modul memiliki folder migration, model, controller, request, route, service, dan
+service provider sendiri, sehingga batas modul terlihat langsung dari struktur berkas.
 
 ```text
 app/Modules/
@@ -297,6 +317,10 @@ app/Modules/
 **Gambar 3.1** Struktur direktori `app/Modules` yang memisahkan kode per modul.
 
 ## 3.2 Implementasi Kode
+
+Sub-bab ini menampilkan potongan kode yang mewakili tiap ketentuan implementasi:
+Service Provider, relasi model, contract, Form Request, custom exception, dan controller.
+Potongan kode diambil dari berkas asli tanpa diubah.
 
 **Service Provider** — `CatalogServiceProvider` memuat migration, route, dan binding
 contract:
@@ -455,6 +479,9 @@ tidak ada stok terpotong atau pesanan setengah jadi.
 
 ## 3.4 Riwayat Commit Git
 
+Riwayat commit disusun per fitur agar perubahan mudah ditelusuri. Setiap commit hanya
+memuat satu topik, misalnya modul katalog, keranjang, atau perbaikan dokumentasi.
+
 ```text
 * f234567 feat(catalog): ganti data contoh dengan produk nyata dan deskripsi lengkap
 * a785faf test(docs): feature test alur checkout, smoke test halaman, dan laporan rancangan
@@ -471,6 +498,11 @@ tidak ada stok terpotong atau pesanan setengah jadi.
 
 ## 3.5 Pembagian Tugas
 
+Pekerjaan dibagi berdasarkan modul agar setiap anggota memegang satu batas domain.
+Tabel 3.1 merangkum tugas dan berkas utama masing-masing anggota.
+
+**Tabel 3.1** Pembagian tugas anggota kelompok.
+
 | Anggota | Tugas | Berkas utama |
 |---|---|---|
 | <Nama 1> | Katalog, setup project, keranjang, checkout, transaksi, event, laporan | `app/Modules/Catalog/**`, `app/Modules/Order/**`, `docs/**` |
@@ -486,10 +518,16 @@ tidak ada stok terpotong atau pesanan setengah jadi.
 
 ## 4.1 Hasil Pengujian Fitur Utama
 
+Pengujian dijalankan dalam dua lapis: otomatis dengan PHPUnit dan manual melalui browser.
+Hasil otomatis ditunjukkan pada blok berikut, sedangkan hasil manual dirangkum pada
+tabel dan gambar di bawahnya.
+
 ```text
 php artisan test  →  16 passed (63 assertions)
 vendor/bin/pint  →  passed
 ```
+
+**Tabel 4.1** Hasil pengujian fitur utama secara manual.
 
 | No | Fitur | Skenario | Hasil |
 |---|---|---|---|
@@ -509,25 +547,35 @@ Bukti tiap skenario ditunjukkan pada gambar berikut.
 **`[SCREENSHOT: halaman katalog]`**
 
 **Gambar 4.1** Halaman katalog publik menampilkan produk beserta harga dan stok.
+
 **`[SCREENSHOT: keranjang berisi item]`**
 
 **Gambar 4.2** Keranjang berisi item dengan subtotal yang dihitung dari qty.
+
 **`[SCREENSHOT: checkout]`**
 
 **Gambar 4.3** Halaman checkout dengan pilihan alamat pengiriman.
+
 **`[SCREENSHOT: detail pesanan]`**
 
 **Gambar 4.4** Detail pesanan berstatus `pending` setelah checkout.
+
 **`[SCREENSHOT: halaman admin produk]`**
 
 **Gambar 4.5** Halaman admin produk untuk CRUD katalog.
+
 **`[SCREENSHOT: hasil php artisan test]`**
 
 **Gambar 4.6** Hasil `php artisan test`: 16 pengujian lulus.
 
 ## 4.2 Hasil Validasi
 
+Validasi diuji dengan mengirim input yang salah dan input yang benar. Pesan error
+diambil dari hasil validasi server, bukan dari pembatasan HTML.
+
 **Validasi gagal:**
+
+**Tabel 4.2** Validasi gagal beserta pesan yang tampil.
 
 | Input | Pesan |
 |---|---|
@@ -540,11 +588,14 @@ Bukti tiap skenario ditunjukkan pada gambar berikut.
 **`[SCREENSHOT: form produk dengan pesan error]`**
 
 **Gambar 4.7** Validasi server menolak SKU duplikat dan menampilkan pesan error.
+
 **`[SCREENSHOT: form checkout tanpa alamat]`**
 
 **Gambar 4.8** Checkout tanpa alamat terpilih ditolak dengan pesan validasi.
 
 **Validasi berhasil:**
+
+**Tabel 4.3** Validasi berhasil beserta hasilnya.
 
 | Input | Hasil |
 |---|---|
@@ -559,6 +610,12 @@ Bukti tiap skenario ditunjukkan pada gambar berikut.
 
 ## 4.3 Hasil Error Handling
 
+Error handling diuji pada kondisi yang tidak dapat dicegah oleh validasi form, yaitu
+perubahan data di antara waktu keranjang diisi dan checkout. Tabel 4.4 merangkum
+perilaku sistem pada tiap kasus.
+
+**Tabel 4.4** Perilaku sistem pada tiap kasus error.
+
 | Kasus | Perilaku |
 |---|---|
 | Stok tidak cukup | Pesan "Stok ... tinggal X, diminta Y.", stok tidak berubah, tidak ada pesanan |
@@ -569,14 +626,18 @@ Bukti tiap skenario ditunjukkan pada gambar berikut.
 **`[SCREENSHOT: error stok kurang]`**
 
 **Gambar 4.10** Checkout gagal karena stok tidak cukup; stok dan jumlah pesanan tidak berubah.
+
 **`[SCREENSHOT: error alamat tidak valid]`**
 
 **Gambar 4.11** Alamat milik pelanggan lain ditolak oleh validasi server.
+
 **`[SCREENSHOT: halaman 403]`**
 
 **Gambar 4.12** Customer yang membuka route admin mendapat HTTP 403.
 
 ## 4.4 Video Demo
+
+Video demo menampilkan alur utama aplikasi dalam satu kali perekaman.
 
 - URL: `[ISI LINK YOUTUBE UNLISTED]`
 - Durasi: `<...>` menit (maksimal 10 menit)
@@ -614,6 +675,8 @@ Bukti tiap skenario ditunjukkan pada gambar berikut.
 **Lampiran B — Video Demo (YouTube unlisted):** `[ISI LINK]`
 
 **Lampiran C — Form Peer Assessment:**
+
+**Tabel L.1** Form peer assessment.
 
 | Nama anggota | Kontribusi | Nilai rekan (1–100) |
 |---|---|---|
