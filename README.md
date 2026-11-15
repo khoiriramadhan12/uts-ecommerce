@@ -1,115 +1,58 @@
-# Tokoku — Sistem E-Commerce Sederhana
+<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
-Tugas UTS mata kuliah **Backend Development** (Semester Ganjil 2026/2027).
-Aplikasi e-commerce modular monolith dibangun dengan **Laravel 13**, **Laravel Sanctum**,
-**Blade**, dan **PHP 8.4+**.
+<p align="center">
+<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+</p>
 
-## Studi Kasus
+## About Laravel
 
-Sistem E-Commerce Sederhana dengan tiga modul:
+Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
 
-| Modul | Isi |
-|---|---|
-| `CatalogModule` | kategori, produk, stok, tag |
-| `CustomerModule` | profil pelanggan, alamat pengiriman |
-| `OrderModule` | keranjang, checkout, pesanan, item pesanan |
+- [Simple, fast routing engine](https://laravel.com/docs/routing).
+- [Powerful dependency injection container](https://laravel.com/docs/container).
+- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
+- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
+- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
+- [Robust background job processing](https://laravel.com/docs/queues).
+- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
 
-Dokumen rancangan lengkap (bounded context, ERD, kontrak, pembagian tugas) ada di
-[`docs/01-rancangan.md`](docs/01-rancangan.md). Rencana implementasi ada di
-[`docs/02-rencana-implementasi.md`](docs/02-rencana-implementasi.md). Draft laporan
-UTS (BAB I–V) ada di [`docs/03-laporan-uts.md`](docs/03-laporan-uts.md).
+Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
-## Menjalankan
+## Learning Laravel
 
-```bash
-composer install
-cp .env.example .env
-php artisan key:generate
+Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
 
-touch database/database.sqlite
-php artisan migrate --seed
-php artisan serve
-```
+In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
 
-Buka `http://127.0.0.1:8000`.
+You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
 
-### Akun demo
+## Agentic Development
 
-| Role | Email | Password |
-|---|---|---|
-| Admin | `admin@example.com` | `password` |
-| Customer | `customer@example.com` | `password` |
-
-## Struktur Modular
-
-```text
-app/Modules/
-├── Catalog/
-│   ├── Contracts/ProductCatalogContract.php
-│   ├── Database/{Migrations,Factories,Seeders}
-│   ├── Http/{Controllers,Requests}
-│   ├── Models/{Category,Product,Tag}
-│   ├── Providers/CatalogServiceProvider.php
-│   ├── Routes/web.php
-│   └── Services/ProductCatalogService.php
-├── Customer/
-│   ├── Contracts/CustomerProfileContract.php
-│   ├── Listeners/CreateCustomerProfile.php
-│   └── ...
-└── Order/
-    ├── Events/{OrderPlaced,OrderPaid,OrderCancelled}.php
-    ├── Services/{CartService,CheckoutService,OrderService}.php
-    └── ...
-```
-
-Setiap modul mendaftarkan migration dan route lewat Service Provider sendiri
-(`loadMigrationsFrom` dan `loadRoutesFrom`).
-
-### Komunikasi antar modul
-
-- **Contract** (sinkron, di dalam transaksi):
-  `ProductCatalogContract` untuk baca produk, potong stok, dan kembalikan stok;
-  `CustomerProfileContract` untuk profil dan validasi kepemilikan alamat.
-- **Domain Event** (setelah commit): `OrderPlaced` dan `OrderCancelled` dipakai
-  modul katalog untuk memperbarui statistik penjualan; listener order menulis log.
-
-`OrderModule` tidak pernah meng-import model `Product` atau `Customer` secara langsung.
-
-## Fitur Wajib
-
-- CRUD produk, kategori, dan tag oleh admin.
-- Keranjang belanja dan checkout dengan validasi stok.
-- Snapshot harga, nama produk, dan alamat saat checkout.
-- Pembayaran simulasi dan pembatalan pesanan (stok dikembalikan).
-- RBAC dua role (`admin`, `customer`) lewat middleware `role`.
-- Form Request di setiap form dan custom exception yang menampilkan pesan di view.
-- `DB::transaction` pada checkout dan pembatalan.
-- Migration, seeder, factory, relasi One-to-Many dan Many-to-Many (pivot `product_tag`).
-
-## Pengujian
+Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
 
 ```bash
-php artisan test
-vendor/bin/pint --test
+composer require laravel/boost --dev
+
+php artisan boost:install
 ```
 
-Cakupan: alur checkout, rollback saat stok kurang, pembatalan pesanan, kepemilikan
-alamat, RBAC, autentikasi, dan smoke test seluruh halaman.
+Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
 
-## Database
+## Contributing
 
-Default memakai **SQLite** agar mudah dijalankan tanpa server tambahan. Migrasi
-ditulis portabel sehingga bisa dipindah ke **MySQL** hanya dengan mengubah `.env`:
+Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
 
-```dotenv
-DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_DATABASE=uts_ecommerce
-DB_USERNAME=root
-DB_PASSWORD=
-```
+## Code of Conduct
 
-## Lisensi
+In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
 
-Kode ini dibuat untuk keperluan akademik.
+## Security Vulnerabilities
+
+If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+
+## License
+
+The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
