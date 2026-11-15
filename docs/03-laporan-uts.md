@@ -11,7 +11,6 @@ Kelas: <Kelas>
 |----|------|-----|
 | 1 | <Nama Anggota 1> | <NIM 1> |
 | 2 | <Nama Anggota 2> | <NIM 2> |
-| 3 | <Nama Anggota 3> | <NIM 3> |
 
 **PROGRAM STUDI D3 TEKNIK INFORMATIKA**
 **FAKULTAS ILMU KOMPUTER**
@@ -452,9 +451,8 @@ tidak ada stok terpotong atau pesanan setengah jadi.
 
 | Anggota | Tugas | Berkas utama |
 |---|---|---|
-| <Nama 1> | Katalog, migration, seeder | `app/Modules/Catalog/**` |
-| <Nama 2> | Autentikasi, RBAC, profil dan alamat | `app/Modules/Customer/**`, `app/Http/**` |
-| <Nama 3> | Keranjang, checkout, event, pengujian | `app/Modules/Order/**`, `tests/**` |
+| <Nama 1> | Katalog, setup project, keranjang, checkout, transaksi, event, laporan | `app/Modules/Catalog/**`, `app/Modules/Order/**`, `docs/**` |
+| <Nama 2> | Autentikasi, RBAC, profil dan alamat pelanggan, tampilan Blade, pengujian | `app/Modules/Customer/**`, `app/Http/**`, `resources/views/**`, `tests/**` |
 
 **`[SCREENSHOT: GitHub Contributors]`**
 
@@ -571,4 +569,3 @@ vendor/bin/pint  →  passed
 |---|---|---|
 | <Nama 1> | <...> | <...> |
 | <Nama 2> | <...> | <...> |
-| <Nama 3> | <...> | <...> |

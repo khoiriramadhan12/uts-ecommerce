@@ -448,13 +448,12 @@ menampilkan stack trace. `bootstrap/app.php` menangani `ValidationException` dan
 
 ---
 
-## 8. Pembagian Tugas (contoh, 3 anggota)
+## 8. Pembagian Tugas (2 anggota)
 
 | Anggota | Modul / tugas | Deliverable |
 |---|---|---|
-| A (Ketua) | `CatalogModule`, setup project, Service Provider, migration katalog, seeder katalog | CRUD produk/kategori/tag, contract katalog |
-| B | `CustomerModule`, autentikasi Sanctum, RBAC, middleware `role`, layout Blade | Login/register, profil, alamat, halaman admin vs customer |
-| C | `OrderModule`, cart, checkout, transaksi, custom exception, event/listener | Keranjang, checkout, pembatalan, laporan BAB III–IV |
+| A | `CatalogModule` + `OrderModule`, setup project, Service Provider, migration, seeder, checkout transaksional, event/listener | CRUD produk/kategori/tag, contract katalog, keranjang, checkout, pembatalan, laporan BAB III–IV |
+| B | `CustomerModule`, autentikasi Sanctum, RBAC, middleware `role`, seluruh tampilan Blade | Login/register, profil, alamat, halaman admin vs customer, pengujian |
 
 Tugas bersama: ERD, pengujian, video demo, peer assessment.
 
