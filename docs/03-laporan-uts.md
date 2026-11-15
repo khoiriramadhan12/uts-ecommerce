@@ -337,6 +337,7 @@ public function boot(): void
     $this->loadRoutesFrom(__DIR__.'/../Routes/web.php');
 
     Event::listen(OrderPlaced::class, [CatalogOrderListener::class, 'onOrderPlaced']);
+    Event::listen(OrderCancelled::class, [CatalogOrderListener::class, 'onOrderCancelled']);
 }
 ```
 
