@@ -94,6 +94,8 @@ flowchart LR
 
 **`[SCREENSHOT: Bounded Context Diagram]`**
 
+**Gambar 2.1** Bounded context: tiga modul domain dan satu shared kernel.
+
 Sistem terdiri atas tiga modul domain dan satu shared kernel. Shared kernel hanya
 menyimpan identitas login dan role.
 
@@ -216,6 +218,8 @@ erDiagram
 
 **`[SCREENSHOT: ERD]`**
 
+**Gambar 2.2** ERD lengkap beserta relasi One-to-Many, Many-to-Many, dan foreign key antar modul.
+
 Relasi wajib yang terpenuhi:
 
 | Ketentuan | Implementasi |
@@ -290,6 +294,8 @@ app/Modules/
 
 **`[SCREENSHOT: struktur direktori app/Modules/]`**
 
+**Gambar 3.1** Struktur direktori `app/Modules` yang memisahkan kode per modul.
+
 ## 3.2 Implementasi Kode
 
 **Service Provider** — `CatalogServiceProvider` memuat migration, route, dan binding
@@ -311,6 +317,8 @@ public function boot(): void
 ```
 
 **`[SCREENSHOT: CatalogServiceProvider]`**
+
+**Gambar 3.2** `CatalogServiceProvider` mendaftarkan binding contract, migration, route, dan listener event.
 
 **Model dan Relasi** — One-to-Many dan Many-to-Many:
 
@@ -335,6 +343,8 @@ public function addresses(): HasMany
 
 **`[SCREENSHOT: model Product, Category, Customer]`**
 
+**Gambar 3.3** Relasi `category()`, `tags()`, dan `addresses()` pada model.
+
 **Contract** — batas akses modul lain:
 
 ```php
@@ -349,6 +359,8 @@ interface ProductCatalogContract
 ```
 
 **`[SCREENSHOT: ProductCatalogContract]`**
+
+**Gambar 3.4** `ProductCatalogContract` sebagai satu-satunya jalur akses modul lain ke data produk.
 
 **Form Request** — validasi input:
 
@@ -365,6 +377,8 @@ public function rules(): array
 ```
 
 **`[SCREENSHOT: StoreProductRequest dan CheckoutRequest]`**
+
+**Gambar 3.5** Aturan validasi pada Form Request produk dan checkout.
 
 **Custom Exception** — pesan informatif ke view:
 
@@ -388,6 +402,8 @@ class InsufficientStockException extends Exception
 
 **`[SCREENSHOT: InsufficientStockException]`**
 
+**Gambar 3.6** `InsufficientStockException` membawa nama produk, stok tersedia, dan jumlah diminta.
+
 **Controller** — memakai contract, bukan model modul lain:
 
 ```php
@@ -403,6 +419,8 @@ public function store(AddToCartRequest $request): RedirectResponse
 ```
 
 **`[SCREENSHOT: CartController dan CheckoutController]`**
+
+**Gambar 3.7** Controller memakai contract, bukan model modul lain.
 
 ## 3.3 Konfigurasi Database Transaction
 
@@ -433,6 +451,8 @@ tidak ada stok terpotong atau pesanan setengah jadi.
 
 **`[SCREENSHOT: CheckoutService::checkout]`**
 
+**Gambar 3.8** `CheckoutService::checkout` di dalam `DB::transaction` dengan `lockForUpdate`.
+
 ## 3.4 Riwayat Commit Git
 
 ```text
@@ -447,6 +467,8 @@ tidak ada stok terpotong atau pesanan setengah jadi.
 
 **`[SCREENSHOT: git log --oneline --graph]`**
 
+**Gambar 3.9** Riwayat commit yang memisahkan pekerjaan per fitur.
+
 ## 3.5 Pembagian Tugas
 
 | Anggota | Tugas | Berkas utama |
@@ -455,6 +477,8 @@ tidak ada stok terpotong atau pesanan setengah jadi.
 | <Nama 2> | Autentikasi, RBAC, profil dan alamat pelanggan, tampilan Blade, pengujian | `app/Modules/Customer/**`, `app/Http/**`, `resources/views/**`, `tests/**` |
 
 **`[SCREENSHOT: GitHub Contributors]`**
+
+**Gambar 3.10** Kontributor repositori sesuai pembagian tugas.
 
 ---
 
@@ -480,12 +504,26 @@ vendor/bin/pint  →  passed
 | 9 | Admin selesai | Tandai pesanan selesai | Status menjadi `completed` |
 | 10 | RBAC | Customer membuka route admin | HTTP 403 |
 
+Bukti tiap skenario ditunjukkan pada gambar berikut.
+
 **`[SCREENSHOT: halaman katalog]`**
+
+**Gambar 4.1** Halaman katalog publik menampilkan produk beserta harga dan stok.
 **`[SCREENSHOT: keranjang berisi item]`**
+
+**Gambar 4.2** Keranjang berisi item dengan subtotal yang dihitung dari qty.
 **`[SCREENSHOT: checkout]`**
+
+**Gambar 4.3** Halaman checkout dengan pilihan alamat pengiriman.
 **`[SCREENSHOT: detail pesanan]`**
+
+**Gambar 4.4** Detail pesanan berstatus `pending` setelah checkout.
 **`[SCREENSHOT: halaman admin produk]`**
+
+**Gambar 4.5** Halaman admin produk untuk CRUD katalog.
 **`[SCREENSHOT: hasil php artisan test]`**
+
+**Gambar 4.6** Hasil `php artisan test`: 16 pengujian lulus.
 
 ## 4.2 Hasil Validasi
 
@@ -500,7 +538,11 @@ vendor/bin/pint  →  passed
 | Password kurang dari 8 karakter | "Password minimal 8 karakter." |
 
 **`[SCREENSHOT: form produk dengan pesan error]`**
+
+**Gambar 4.7** Validasi server menolak SKU duplikat dan menampilkan pesan error.
 **`[SCREENSHOT: form checkout tanpa alamat]`**
+
+**Gambar 4.8** Checkout tanpa alamat terpilih ditolak dengan pesan validasi.
 
 **Validasi berhasil:**
 
@@ -513,6 +555,8 @@ vendor/bin/pint  →  passed
 
 **`[SCREENSHOT: form produk berhasil disimpan]`**
 
+**Gambar 4.9** Produk baru tersimpan dan muncul di daftar produk.
+
 ## 4.3 Hasil Error Handling
 
 | Kasus | Perilaku |
@@ -523,8 +567,14 @@ vendor/bin/pint  →  passed
 | Akses admin oleh customer | HTTP 403 "Anda tidak memiliki akses..." |
 
 **`[SCREENSHOT: error stok kurang]`**
+
+**Gambar 4.10** Checkout gagal karena stok tidak cukup; stok dan jumlah pesanan tidak berubah.
 **`[SCREENSHOT: error alamat tidak valid]`**
+
+**Gambar 4.11** Alamat milik pelanggan lain ditolak oleh validasi server.
 **`[SCREENSHOT: halaman 403]`**
+
+**Gambar 4.12** Customer yang membuka route admin mendapat HTTP 403.
 
 ## 4.4 Video Demo
 
